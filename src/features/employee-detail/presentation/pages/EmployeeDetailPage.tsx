@@ -1,8 +1,13 @@
-import { useGetEmployeesQuery } from "../../data/employeesApi";
-import EmployeesTable from "../components/EmployeesTable";
+import { useGetEmployeeDetailsQuery } from "../../data/employee-detailApi";
+import type { Employee } from "../../domain/employee-detail.types";
+import EmployeeDetailTable from "../components/EmployeeDetailTable";
 
-export default function EmployeesPage() {
-  const { data: employees, isLoading, error } = useGetEmployeesQuery();
+interface EmployeeDetailPageProps {
+  onSelect?: (employee: Employee) => void;
+}
+
+export default function EmployeeDetailPage({ onSelect }: EmployeeDetailPageProps) {
+  const { data: employees, isLoading, error } = useGetEmployeeDetailsQuery();
 
   if (isLoading) {
     return (
@@ -24,13 +29,13 @@ export default function EmployeesPage() {
     <div className="mx-auto max-w-6xl px-8 py-10">
       <div className="mb-8 flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-gray-900">Employees</h2>
+          <h2 className="text-2xl font-bold text-gray-900">Employee Directory</h2>
           <p className="mt-1 text-sm text-gray-500">
-            {employees?.length ?? 0} team members
+            {employees?.length ?? 0} team members — select a row to view details
           </p>
         </div>
       </div>
-      <EmployeesTable employees={employees ?? []} />
+      <EmployeeDetailTable employees={employees ?? []} onSelect={onSelect} />
     </div>
   );
 }
