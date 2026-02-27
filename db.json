@@ -21,14 +21,14 @@
       "status": "active"
     },
     {
-      "id": 3,
       "firstName": "Sofía",
-      "lastName": "Ramírez",
+      "lastName": "Fortanell",
       "email": "sofia.ramirez@apsys.mx",
       "position": "UX Designer",
       "department": "Design",
       "startDate": "2023-01-10",
-      "status": "active"
+      "status": "active",
+      "id": 3
     },
     {
       "id": 4,
@@ -71,14 +71,14 @@
       "status": "inactive"
     },
     {
-      "id": 8,
       "firstName": "Jorge",
       "lastName": "Vega",
       "email": "jorge.vega@apsys.mx",
       "position": "Fullstack Developer",
-      "department": "Engineering",
+      "department": "Operations",
       "startDate": "2023-06-05",
-      "status": "active"
+      "status": "active",
+      "id": 8
     },
     {
       "id": 9,
@@ -91,22 +91,40 @@
       "status": "active"
     },
     {
-      "id": 10,
-      "firstName": "Miguel",
-      "lastName": "Cruz",
-      "email": "miguel.cruz@apsys.mx",
-      "position": "Data Analyst",
-      "department": "Analytics",
-      "startDate": "2022-07-18",
-      "status": "active"
+      "firstName": "Lizbeth",
+      "lastName": "Fortanell",
+      "email": "lizbethfortanell@gmail.com",
+      "position": "Desarolladora",
+      "department": "Engineering",
+      "startDate": "2026-02-27",
+      "status": "active",
+      "id": 10
     }
   ],
   "departments": [
-    { "id": 1, "name": "Engineering" },
-    { "id": 2, "name": "Design" },
-    { "id": 3, "name": "Operations" },
-    { "id": 4, "name": "Infrastructure" },
-    { "id": 5, "name": "Human Resources" },
-    { "id": 6, "name": "Analytics" }
+    {
+      "id": 1,
+      "name": "Engineering"
+    },
+    {
+      "id": 2,
+      "name": "Design"
+    },
+    {
+      "id": 3,
+      "name": "Operations"
+    },
+    {
+      "id": 4,
+      "name": "Infrastructure"
+    },
+    {
+      "id": 5,
+      "name": "Human Resources"
+    },
+    {
+      "id": 6,
+      "name": "Analytics"
+    }
   ]
 }

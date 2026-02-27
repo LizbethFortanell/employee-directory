@@ -1,6 +1,8 @@
-import { useGetEmployeeDetailsQuery } from "../../data/employee-detailApi";
-import type { Employee } from "../../domain/employee-detail.types";
+import { useState } from "react";
+import { useGetEmployeeDetailsQuery, useCreateEmployeeMutation } from "../../data/employee-detailApi";
+import type { Employee, EmployeeFormData } from "../../domain/employee-detail.types";
 import EmployeeDetailTable from "../components/EmployeeDetailTable";
+import EmployeeDetailForm from "../components/EmployeeDetailForm";
 
 interface EmployeeDetailPageProps {
   onSelect?: (employee: Employee) => void;
@@ -8,6 +10,13 @@ interface EmployeeDetailPageProps {
 
 export default function EmployeeDetailPage({ onSelect }: EmployeeDetailPageProps) {
   const { data: employees, isLoading, error } = useGetEmployeeDetailsQuery();
+  const [createEmployee, { isLoading: isCreating }] = useCreateEmployeeMutation();
+  const [showCreateForm, setShowCreateForm] = useState(false);
+
+  const handleCreate = async (data: EmployeeFormData) => {
+    await createEmployee(data).unwrap();
+    setShowCreateForm(false);
+  };
 
   if (isLoading) {
     return (
@@ -34,7 +43,22 @@ export default function EmployeeDetailPage({ onSelect }: EmployeeDetailPageProps
             {employees?.length ?? 0} team members — select a row to view details
           </p>
         </div>
+        <button
+          onClick={() => setShowCreateForm(!showCreateForm)}
+          className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none"
+        >
+          {showCreateForm ? "Cancel" : "Add Employee"}
+        </button>
       </div>
+      {showCreateForm && (
+        <div className="mb-8">
+          <EmployeeDetailForm
+            onSubmit={handleCreate}
+            onCancel={() => setShowCreateForm(false)}
+            isSubmitting={isCreating}
+          />
+        </div>
+      )}
       <EmployeeDetailTable employees={employees ?? []} onSelect={onSelect} />
     </div>
   );
