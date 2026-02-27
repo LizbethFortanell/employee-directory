@@ -1,0 +1,9 @@
+{
+  "scripts": {
+    "dev": "vite",
+    "mock": "json-server db.json -p 3001",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  }
+}
