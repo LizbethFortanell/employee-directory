@@ -6,44 +6,67 @@ interface EmployeesTableProps {
 
 export default function EmployeesTable({ employees }: EmployeesTableProps) {
   return (
-    <div className="overflow-x-auto rounded-lg border border-gray-200">
+    <div className="overflow-x-auto rounded-xl border border-gray-200 bg-white shadow-sm">
       <table className="min-w-full divide-y divide-gray-200">
-        <thead className="bg-gray-50">
+        <thead className="bg-gradient-to-r from-gray-50 to-gray-100">
           <tr>
-            <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase">
+            <th className="px-6 py-4 text-left text-xs font-semibold tracking-wider text-gray-600 uppercase">
               Name
             </th>
-            <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase">
+            <th className="px-6 py-4 text-left text-xs font-semibold tracking-wider text-gray-600 uppercase">
               Position
             </th>
-            <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase">
+            <th className="px-6 py-4 text-left text-xs font-semibold tracking-wider text-gray-600 uppercase">
               Department
             </th>
-            <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase">
+            <th className="px-6 py-4 text-left text-xs font-semibold tracking-wider text-gray-600 uppercase">
               Status
             </th>
           </tr>
         </thead>
-        <tbody className="divide-y divide-gray-200 bg-white">
+        <tbody className="divide-y divide-gray-100">
           {employees.map((employee) => (
-            <tr key={employee.id} className="hover:bg-gray-50">
-              <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-900">
-                {employee.firstName} {employee.lastName}
+            <tr
+              key={employee.id}
+              className="transition-colors hover:bg-blue-50/50"
+            >
+              <td className="whitespace-nowrap px-6 py-4">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-blue-100 text-sm font-semibold text-blue-700">
+                    {employee.firstName[0]}
+                    {employee.lastName[0]}
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-gray-900">
+                      {employee.firstName} {employee.lastName}
+                    </p>
+                    <p className="text-xs text-gray-400">{employee.email}</p>
+                  </div>
+                </div>
               </td>
-              <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500">
+              <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-600">
                 {employee.position}
               </td>
-              <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500">
-                {employee.department}
+              <td className="whitespace-nowrap px-6 py-4">
+                <span className="inline-flex items-center rounded-md bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-700">
+                  {employee.department}
+                </span>
               </td>
-              <td className="whitespace-nowrap px-6 py-4 text-sm">
+              <td className="whitespace-nowrap px-6 py-4">
                 <span
-                  className={`inline-flex rounded-full px-2 text-xs font-semibold leading-5 ${
+                  className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-semibold ${
                     employee.status === "active"
-                      ? "bg-green-100 text-green-800"
-                      : "bg-red-100 text-red-800"
+                      ? "bg-green-50 text-green-700"
+                      : "bg-red-50 text-red-700"
                   }`}
                 >
+                  <span
+                    className={`h-1.5 w-1.5 rounded-full ${
+                      employee.status === "active"
+                        ? "bg-green-500"
+                        : "bg-red-500"
+                    }`}
+                  />
                   {employee.status}
                 </span>
               </td>
