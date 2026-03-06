@@ -100,9 +100,7 @@ export default function EmployeeCreateForm({
             className="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
           />
           {errors.email && (
-            <p className="mt-1 text-xs text-red-600">
-              {errors.email.message}
-            </p>
+            <p className="mt-1 text-xs text-red-600">{errors.email.message}</p>
           )}
         </div>
 
@@ -172,9 +170,7 @@ export default function EmployeeCreateForm({
             <option value="inactive">Inactive</option>
           </select>
           {errors.status && (
-            <p className="mt-1 text-xs text-red-600">
-              {errors.status.message}
-            </p>
+            <p className="mt-1 text-xs text-red-600">{errors.status.message}</p>
           )}
         </div>
       </div>
