@@ -1,8 +1,9 @@
-import { useState } from "react";
-import { useGetEmployeeDetailsQuery, useCreateEmployeeMutation } from "../../data/employee-detailApi";
+import { useMemo, useState } from "react";
+import { useGetEmployeeDetailsQuery, useCreateEmployeeMutation, useGetDetailDepartmentsQuery } from "../../data/employee-detailApi";
 import type { Employee, EmployeeFormData } from "../../domain/employee-detail.types";
 import EmployeeDetailTable from "../components/EmployeeDetailTable";
 import EmployeeDetailForm from "../components/EmployeeDetailForm";
+import DepartmentFilter from "../../../employees/presentation/components/DepartmentFilter";
 
 interface EmployeeDetailPageProps {
   onSelect?: (employee: Employee) => void;
@@ -10,8 +11,16 @@ interface EmployeeDetailPageProps {
 
 export default function EmployeeDetailPage({ onSelect }: EmployeeDetailPageProps) {
   const { data: employees, isLoading, error } = useGetEmployeeDetailsQuery();
+  const { data: departments } = useGetDetailDepartmentsQuery();
   const [createEmployee, { isLoading: isCreating }] = useCreateEmployeeMutation();
   const [showCreateForm, setShowCreateForm] = useState(false);
+  const [selectedDepartment, setSelectedDepartment] = useState("");
+
+  const filteredEmployees = useMemo(() => {
+    if (!employees) return [];
+    if (!selectedDepartment) return employees;
+    return employees.filter((e) => e.department === selectedDepartment);
+  }, [employees, selectedDepartment]);
 
   const handleCreate = async (data: EmployeeFormData) => {
     await createEmployee(data).unwrap();
@@ -41,7 +50,7 @@ export default function EmployeeDetailPage({ onSelect }: EmployeeDetailPageProps
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Employee Directory</h1>
           <p className="mt-1 text-sm text-gray-500">
-            {employees?.length ?? 0} team members
+            {filteredEmployees.length} team member{filteredEmployees.length !== 1 ? "s" : ""}
           </p>
         </div>
         <button
@@ -61,7 +70,16 @@ export default function EmployeeDetailPage({ onSelect }: EmployeeDetailPageProps
           />
         </div>
       )}
-      <EmployeeDetailTable employees={employees ?? []} onSelect={onSelect} />
+      {departments && departments.length > 0 && (
+        <div className="mb-4">
+          <DepartmentFilter
+            departments={departments}
+            selected={selectedDepartment}
+            onChange={setSelectedDepartment}
+          />
+        </div>
+      )}
+      <EmployeeDetailTable employees={filteredEmployees} onSelect={onSelect} />
     </div>
   );
 }
