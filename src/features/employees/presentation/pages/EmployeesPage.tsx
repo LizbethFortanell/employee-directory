@@ -1,11 +1,23 @@
-import { useState } from "react";
-import { useGetEmployeesQuery } from "../../data/employeesApi";
+import { useMemo, useState } from "react";
+import {
+  useGetEmployeesQuery,
+  useGetDepartmentsQuery,
+} from "../../data/employeesApi";
 import EmployeesTable from "../components/EmployeesTable";
 import EmployeeCreateForm from "../components/EmployeeCreateForm";
+import DepartmentFilter from "../components/DepartmentFilter";
 
 export default function EmployeesPage() {
   const { data: employees, isLoading, error } = useGetEmployeesQuery();
+  const { data: departments } = useGetDepartmentsQuery();
   const [showCreateForm, setShowCreateForm] = useState(false);
+  const [selectedDepartment, setSelectedDepartment] = useState("");
+
+  const filteredEmployees = useMemo(() => {
+    if (!employees) return [];
+    if (!selectedDepartment) return employees;
+    return employees.filter((e) => e.department === selectedDepartment);
+  }, [employees, selectedDepartment]);
 
   if (isLoading) {
     return (
@@ -30,7 +42,7 @@ export default function EmployeesPage() {
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Employees</h1>
           <p className="mt-1 text-sm text-gray-500">
-            {employees?.length ?? 0} team members
+            {filteredEmployees.length} team member{filteredEmployees.length !== 1 ? "s" : ""}
           </p>
         </div>
         <button
@@ -49,7 +61,16 @@ export default function EmployeesPage() {
           />
         </div>
       )}
-      <EmployeesTable employees={employees ?? []} />
+      {departments && departments.length > 0 && (
+        <div className="mb-4">
+          <DepartmentFilter
+            departments={departments}
+            selected={selectedDepartment}
+            onChange={setSelectedDepartment}
+          />
+        </div>
+      )}
+      <EmployeesTable employees={filteredEmployees} />
     </div>
   );
 }
